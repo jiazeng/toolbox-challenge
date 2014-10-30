@@ -82,3 +82,42 @@ function flipTile(tile, img) {
         img.fadeIn(100);
     });
 }
+
+/*
+Game Logic
+varibles need to exist in a scope highter then the click event
+a new turn: track tiles, assoiated tile number with the image itself, temp variable to remember the tile/img that was
+clicked on
+if it has a value, true, if null/undefined = false, if(variable), then first click of the turn
+Comparison: tile number,
+if don't match{
+    filp tile over, increment miss (miss+++
+} if match,
+    decrement remaining, increment match
+}
+
+if already matched or clicked, if flipped == true, just return
+
+second move (null) flipped/null
+
+if(matches == 8 || remaining == 0) {
+    Congrats!
+}
+ */
+
+/*
+four attributes,
+one variable to hold the img
+second click: match/or not
+clear the track of first step
+
+until the second one flipped over, ignore click
+Running code once after a delay
+
+boolean resetting (outside click handler), set to true
+after set to false
+if(resetting = true) {
+    just return;
+}
+
+*/
