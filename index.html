@@ -2,20 +2,49 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Memory</title>
+        <title>Memory Game</title>
         <link rel="stylesheet" href="css/main.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
     </head>
     <body>
-        <h1>Memory</h1>
-        <p><button id="start-game">Start New Game</button></p>
+        <main>
+            <h1>Memory Game</h1>
+            <section id="menu">
+                <p id="menu">
+                    <button id="instruction" type="button" class="btn btn-info btn-lg" data-container="body"
+                            data-toggle="popover"
+                            data-placement="bottom"
+                            data-content="Click on the pictures, remember the pattern, and find the pairs">
+                        How to Play
+                    </button>
 
-        <p>elapsed time: <span id="elapsed-seconds"></span></p>
+                    <button id="start-game" type="button" class="btn btn-success btn-lg">Start New Game</button>
+                </p>
+            </section>
 
-        <div id="game-board"></div>
+            <section id="game-monitor">
+                <div class ="col-md-4">
+                    <p>Elapsed time: <span id="elapsed-seconds"></span></p>
+                </div>
+                <div class ="col-md-4">
+                    <p>Matches: <span id="matchedCount"></span></p>
+                </div>
+                <div class ="col-md-4">
+                    <p>Missed: <span id="missedCount"></span></p>
+                </div>
+            </section>
 
-        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
-        <script src="js/app.js"></script>
 
+
+            <div id="game-board"></div>
+
+            <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+            <script src="js/app.js"></script>
+        </main>
     </body>
 </html>
+
+
