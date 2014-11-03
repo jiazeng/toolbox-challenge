@@ -7,7 +7,7 @@ var idx;
 var firstTile = null;
 var firstImg;
 var secondTile;
-var resetting = null;
+var resetting;
 var matchedCount = 0;
 var missedCount = 0;
 
@@ -20,8 +20,6 @@ for(idx = 1; idx <= 32; ++idx) {
     });
 } //for each ti
 
-//console.log(tiles);
-
 //when document is ready...
 //Shuffle the array, get 8, and cloned them into a set of 16
 $(document).ready(function() {
@@ -29,9 +27,8 @@ $(document).ready(function() {
 
     //catch click event of start game button
     $('#start-game').click(function() {
-
-        $('#gameFinish').css('display', 'none');
-        $('#game-board').fadeIn(300);
+        $('#game-monitor').fadeIn(100);
+        $('#game-board').fadeIn(100);
 
         console.log('start game button clicked!');
         tiles = _.shuffle(tiles);
@@ -63,14 +60,21 @@ $(document).ready(function() {
         gameBoard.append(row);
 
         //get starting milliseconds
+        var elapsedSeconds
         var startTime = Date.now();
         var timer = window.setInterval(function() {
-            var elapsedSeconds = (Date.now() - startTime) / 1000;
+            elapsedSeconds = (Date.now() - startTime) / 1000;
             elapsedSeconds = Math.floor(elapsedSeconds);
             $('#elapsed-seconds').text(elapsedSeconds + ' seconds');
             $('#matchedCount').text(matchedCount);
             $('#missedCount').text(missedCount);
         }, 1000);
+
+        //add function for restart button
+        $('#restart').click(function() {
+            $('#win-screen').fadeOut(100);
+            $('#menu').fadeIn(100);
+        });
 
         //click on the image
         $('#game-board img').click(function() {
@@ -79,16 +83,14 @@ $(document).ready(function() {
             var tile = clickedImg.data('tile');
             console.log(tile);
 
+
             if(tile.flipped || tile.matched || resetting) {
                 return;
             }
-            if (!firstTile) { //if it is the first click, remember the tile and the picture
-
+            else if (!firstTile) { //if it is the first click, remember the tile and the picture
                 console.log("first click");
-                firstTile = tile;
                 firstImg = $(this);
-                //firstTile = firstImg.data('tile');
-                firstTile = tile;
+                firstTile = firstImg.data('tile');
                 flipTile(firstTile, firstImg);
                 console.log("firstTile: " + firstTile);
 
@@ -108,11 +110,12 @@ $(document).ready(function() {
                 } else { //tiles don't match
                     console.log("tiles don't match");
                     missedCount++;
-                    resetting = window.setTimeout(function() {
+                    resetting = true;
+                    window.setTimeout(function() {
                         flipTile(tile, clickedImg);
-                        flipTile(firstTile, firstImg);
+                        flipTile(firstImg.data('tile'), firstImg);
+                        resetting = null
                     }, 1000);
-                    resetting = null;
                 }
                 firstTile = null;
                 secondTile = null;
@@ -121,10 +124,15 @@ $(document).ready(function() {
             if(matchedCount == 8) { //game finishes
                 //timeout
                 window.clearInterval(timer);
-
+                var tries = matchedCount + missedCount;
+                $('#totalTime').text(elapsedSeconds + ' seconds');
+                $('#tries').text(tries + " turns");
                 //show states;
-                //$('#win-screen').fadeIn(300);
-                //$('#resetButton').fadeIn(300);
+                $('#menu').fadeOut(100);
+                $('#game-monitor').fadeOut(100);
+                $('#game-board').fadeOut(100);
+                $('#win-screen').fadeIn(300);
+                $('#restart').fadeIn(300);
                 //$('#audio')[0].play();
             }
         });
@@ -167,7 +175,6 @@ second move (null) flipped/null
  if the first tile has the same face as the second tile:
  keep the tiles face up
 
-
 if(matches == 8 || remaining == 0) {
     Congrats!
 }
@@ -187,18 +194,3 @@ get another variable to decide when to ignore your click, boolean resetting outs
 reset to true, and then set to false. inside click handler, if the resetting is true then just return
 */
 
-/*
-four attributes,
-one variable to hold the img
-second click: match/or not
-clear the track of first step
-
-until the second one flipped over, ignore click
-Running code once after a delay
-
-boolean resetting (outside click handler), set to true
-after set to false
-if(resetting = true) {
-    just return;
- }
-*/

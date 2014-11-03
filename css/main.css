@@ -1,10 +1,13 @@
-@import url(http://fonts.googleapis.com/css?family=Raleway:300);
-@import url(http://fonts.googleapis.com/css?family=Lato:300,400);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600);;
 
 body {
-    font-family: 'Lato', 'Helvetica Neue', Helvetica, sans-serif;
-    font-size: 18px;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 28px;
     font-weight: 300;
+}
+
+#game-monitor {
+    display: none;
 }
 
 #game-board img {
@@ -18,17 +21,11 @@ main {
     margin:20px;
     padding-left: 5em;
     padding-right: 5em;
-
 }
 
-#game-over {
-    font-size: 36px;
-    color: #FFFFFF;
-    display: inline-block;
-}
 
-#gameFinish {
+#win-screen {
+    display:none;
     font-size: 24px;
-    color: #FFFFFF;
-    display: inline-block;
 }
+

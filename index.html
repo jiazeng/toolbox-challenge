@@ -9,9 +9,9 @@
     </head>
     <body>
         <main>
+            <div id="menu">
             <h1>Memory Game</h1>
-            <section id="menu">
-                <p id="menu">
+                <p>
                     <button id="instruction" type="button" class="btn btn-info btn-lg" data-container="body"
                             data-toggle="popover"
                             data-placement="bottom"
@@ -20,10 +20,11 @@
                     </button>
 
                     <button id="start-game" type="button" class="btn btn-success btn-lg">Start New Game</button>
-                </p>
-            </section>
 
-            <section id="game-monitor">
+                </p>
+            </div>
+
+            <div id="game-monitor">
                 <div class ="col-md-4">
                     <p>Elapsed time: <span id="elapsed-seconds"></span></p>
                 </div>
@@ -33,11 +34,16 @@
                 <div class ="col-md-4">
                     <p>Missed: <span id="missedCount"></span></p>
                 </div>
-            </section>
-
-
+            </div>
 
             <div id="game-board"></div>
+
+            <div id="win-screen">
+                <h1>Congratulations! You are a memory GENIUS!</h1>
+                <p>Total Time: <span id="totalTime"></span></p>
+                <p>Tries: <span id="tries"></span></p>
+                <button id="restart" type="button" class="btn btn-success btn-lg">Play Again</button>
+            </div>
 
             <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
