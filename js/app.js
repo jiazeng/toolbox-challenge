@@ -10,6 +10,14 @@ var secondTile;
 var resetting;
 var matchedCount = 0;
 var missedCount = 0;
+var timer;
+
+/*
+var windowHeight = $(window).height();
+var windowWidth = $(window).width();
+var imgSize = Math.min(windowHeight/4, windowWidth/4);
+$('#game-board img') .size(imgSize);
+*/
 
 for(idx = 1; idx <= 32; ++idx) {
     tiles.push ({
@@ -29,6 +37,9 @@ $(document).ready(function() {
     $('#start-game').click(function() {
         $('#game-monitor').fadeIn(100);
         $('#game-board').fadeIn(100);
+        window.clearInterval(timer);
+        var gameBoard = $('#game-board');
+        gameBoard.text("");
 
         console.log('start game button clicked!');
         tiles = _.shuffle(tiles);
@@ -40,7 +51,6 @@ $(document).ready(function() {
         });
         tilePairs = _.shuffle(tilePairs);
 
-        var gameBoard = $('#game-board');
         var row = $(document.createElement('div'));
         var img;
         _.forEach(tilePairs, function(tile, elemIndex) {
@@ -62,7 +72,7 @@ $(document).ready(function() {
         //get starting milliseconds
         var elapsedSeconds
         var startTime = Date.now();
-        var timer = window.setInterval(function() {
+        timer = window.setInterval(function() {
             elapsedSeconds = (Date.now() - startTime) / 1000;
             elapsedSeconds = Math.floor(elapsedSeconds);
             $('#elapsed-seconds').text(elapsedSeconds + ' seconds');
@@ -73,33 +83,37 @@ $(document).ready(function() {
         //add function for restart button
         $('#restart').click(function() {
             $('#win-screen').fadeOut(100);
-            $('#menu').fadeIn(100);
-        });
+            gameBoard.text("");
+            missedCount =0;
+                matchedCount=0;
+                $('#menu').fadeIn(100);
+            });
 
-        //click on the image
-        $('#game-board img').click(function() {
-            console.log(this.alt);
-            var clickedImg = $(this);
-            var tile = clickedImg.data('tile');
-            console.log(tile);
+            //click on the image
+            $('#game-board img').click(function() {
+                console.log(this.alt);
+                var clickedImg = $(this);
+                var tile = clickedImg.data('tile');
+                console.log(tile);
 
 
-            if(tile.flipped || tile.matched || resetting) {
-                return;
-            }
-            else if (!firstTile) { //if it is the first click, remember the tile and the picture
-                console.log("first click");
-                firstImg = $(this);
-                firstTile = firstImg.data('tile');
-                flipTile(firstTile, firstImg);
-                console.log("firstTile: " + firstTile);
+                if(tile.flipped || tile.matched || resetting) {
+                    return;
+                }
+                else if (!firstTile) { //if it is the first click, remember the tile and the picture
+                    console.log("first click");
+                    firstImg = $(this);
+                    firstTile = firstImg.data('tile');
+                    flipTile(firstTile, firstImg);
+                    console.log("firstTile: " + firstTile);
 
-            } else { //if it is the second click
-                console.log("second click");
-                flipTile(tile, clickedImg);
-                //secondTile = $(this).data('tile');
-                secondTile = tile;
-                console.log("second tile" + secondTile);
+                }
+                else { //if it is the second click
+                    console.log("second click");
+                    flipTile(tile, clickedImg);
+                    //secondTile = $(this).data('tile');
+                    secondTile = tile;
+                    console.log("second tile" + secondTile);
 
                 if(firstTile.tileNum == tile.tileNum) { //if two tiles match
                     console.log(firstTile.tileNum + "==" + tile.tileNum);
@@ -107,7 +121,8 @@ $(document).ready(function() {
                     firstTile.matched = true;
                     secondTile.matched = true;
 
-                } else { //tiles don't match
+                }
+                else { //tiles don't match
                     console.log("tiles don't match");
                     missedCount++;
                     resetting = true;
@@ -119,7 +134,7 @@ $(document).ready(function() {
                 }
                 firstTile = null;
                 secondTile = null;
-            }
+            } //click the image
 
             if(matchedCount == 8) { //game finishes
                 //timeout
@@ -135,7 +150,7 @@ $(document).ready(function() {
                 $('#restart').fadeIn(300);
                 //$('#audio')[0].play();
             }
-        });
+        }); //restart
 
     }); //start game button click
 
