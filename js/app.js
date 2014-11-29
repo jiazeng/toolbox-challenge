@@ -22,6 +22,7 @@ for(idx = 1; idx <= 32; ++idx) {
     });
 } //for each ti
 
+window.addEventListener('load', resize, false);
 window.addEventListener('resize', resize, false);
 
 //when document is ready...
@@ -172,8 +173,6 @@ function flipTile(tile, img) {
 }
 
 function resize() {
-
-
     var winHeight = window. innerHeight;
     var winWidth = window.innerWidth;
 
