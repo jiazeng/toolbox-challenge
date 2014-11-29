@@ -13,13 +13,6 @@ var missedCount = 0;
 var timer;
 var gameBoard = $('#game-board');
 
-/*
-var windowHeight = $(window).height();
-var windowWidth = $(window).width();
-var imgSize = Math.min(windowHeight/4, windowWidth/4);
-$('#game-board img') .size(imgSize);
-*/
-
 for(idx = 1; idx <= 32; ++idx) {
     tiles.push ({
         tileNum: idx,
@@ -35,7 +28,6 @@ window.addEventListener('resize', resize, false);
 //Shuffle the array, get 8, and cloned them into a set of 16
 $(document).ready(function() {
     $('#instruction').popover({trigger: 'hover'});
-    //$(window).resize(resize()); /****************************/
 
     //catch click event of start game button
     $('#start-game').click(function() {
