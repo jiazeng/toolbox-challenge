@@ -11,6 +11,7 @@ var resetting;
 var matchedCount = 0;
 var missedCount = 0;
 var timer;
+var gameBoard = $('#game-board');
 
 /*
 var windowHeight = $(window).height();
@@ -28,17 +29,22 @@ for(idx = 1; idx <= 32; ++idx) {
     });
 } //for each ti
 
+window.addEventListener('resize', resize, false);
+
 //when document is ready...
 //Shuffle the array, get 8, and cloned them into a set of 16
 $(document).ready(function() {
-    $('#instruction').popover();
+    $('#instruction').popover({trigger: 'hover'});
+    //$(window).resize(resize()); /****************************/
 
     //catch click event of start game button
     $('#start-game').click(function() {
-        $('#game-monitor').fadeIn(100);
-        $('#game-board').fadeIn(100);
         window.clearInterval(timer);
-        var gameBoard = $('#game-board');
+        document.getElementById('startSound').load();
+        document.getElementById('startSound').play();
+        $('#game-monitor').fadeIn(100);
+        $(gameBoard).fadeIn(100);
+        //window.clearInterval(timer);
         gameBoard.text("");
 
         console.log('start game button clicked!');
@@ -54,7 +60,7 @@ $(document).ready(function() {
         var row = $(document.createElement('div'));
         var img;
         _.forEach(tilePairs, function(tile, elemIndex) {
-            if(elemIndex > 0 && 0 ===elemIndex %4) {
+            if(elemIndex > 0 && 0 === elemIndex %4) {
                 gameBoard.append(row);
                 row = $(document.createElement('div'));
             }
@@ -84,36 +90,37 @@ $(document).ready(function() {
         $('#restart').click(function() {
             $('#win-screen').fadeOut(100);
             gameBoard.text("");
-            missedCount =0;
-                matchedCount=0;
-                $('#menu').fadeIn(100);
-            });
-
-            //click on the image
-            $('#game-board img').click(function() {
-                console.log(this.alt);
-                var clickedImg = $(this);
-                var tile = clickedImg.data('tile');
-                console.log(tile);
+            window.clearInterval(timer);
+            tiles = [];
+            missedCount = 0;
+            matchedCount = 0;
+            startTime = Date.now();
+            $('#menu').fadeIn(100);
+        });
 
 
-                if(tile.flipped || tile.matched || resetting) {
-                    return;
-                }
-                else if (!firstTile) { //if it is the first click, remember the tile and the picture
-                    console.log("first click");
-                    firstImg = $(this);
-                    firstTile = firstImg.data('tile');
-                    flipTile(firstTile, firstImg);
-                    console.log("firstTile: " + firstTile);
+        //click on the image
+        $('#game-board img').click(function() {
+            console.log(this.alt);
+            var clickedImg = $(this);
+            var tile = clickedImg.data('tile');
+            console.log(tile);
 
-                }
-                else { //if it is the second click
-                    console.log("second click");
-                    flipTile(tile, clickedImg);
-                    //secondTile = $(this).data('tile');
-                    secondTile = tile;
-                    console.log("second tile" + secondTile);
+
+            if(tile.flipped || tile.matched || resetting) {
+                return;
+            } else if (!firstTile) { //if it is the first click, remember the tile and the picture
+                console.log("first click");
+                firstImg = $(this);
+                firstTile = firstImg.data('tile');
+                flipTile(firstTile, firstImg);
+                console.log("firstTile: " + firstTile);
+
+            } else { //if it is the second click
+                console.log("second click");
+                flipTile(tile, clickedImg);
+                secondTile = tile;
+                console.log("second tile" + secondTile);
 
                 if(firstTile.tileNum == tile.tileNum) { //if two tiles match
                     console.log(firstTile.tileNum + "==" + tile.tileNum);
@@ -130,13 +137,15 @@ $(document).ready(function() {
                         flipTile(tile, clickedImg);
                         flipTile(firstImg.data('tile'), firstImg);
                         resetting = null
-                    }, 1000);
+                    }, 500);
                 }
                 firstTile = null;
                 secondTile = null;
-            } //click the image
+            } //else if it is the second click
 
+            //if game finishes
             if(matchedCount == 8) { //game finishes
+
                 //timeout
                 window.clearInterval(timer);
                 var tries = matchedCount + missedCount;
@@ -148,16 +157,17 @@ $(document).ready(function() {
                 $('#game-board').fadeOut(100);
                 $('#win-screen').fadeIn(300);
                 $('#restart').fadeIn(300);
-                //$('#audio')[0].play();
+                document.getElementById('finishSound').load();
+                document.getElementById('finishSound').play();
             }
-        }); //restart
+        }); // click on the image
 
     }); //start game button click
 
 }); //document ready function
 
 function flipTile(tile, img) {
-    img.fadeOut(100, function() {
+    img.fadeOut(60, function() {
         if(tile.flipped) { //if flipped, show back
             img.attr('src', 'img/tile-back.png');
         }
@@ -165,9 +175,31 @@ function flipTile(tile, img) {
             img.attr('src', tile.src);
         }
         tile.flipped = !tile.flipped; //record if this picture is flipped or not
-        img.fadeIn(100);
+        img.fadeIn(60);
     }); //img fade out
 }
+
+function resize() {
+
+
+    var winHeight = window. innerHeight;
+    var winWidth = window.innerWidth;
+
+    var smaller = Math.min(winWidth, winHeight);
+    console.log("width: " + winWidth);
+    console.log("height " + winHeight);
+    console.log("smaller: " + smaller);
+
+    if(winHeight == smaller) {
+        smaller = smaller - 220;
+    }
+    if(winWidth == smaller) {
+        smaller = smaller - 220;
+    }
+    $(gameBoard).css('height', (smaller - 10));
+    $(gameBoard).css('width', (smaller - 10));
+}
+
 
 /*
 Game Logic

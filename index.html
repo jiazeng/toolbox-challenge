@@ -7,13 +7,24 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
     </head>
+
+    <audio preload="auto" id="startSound">
+        <source src="audio/start.mp3" type = "audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <audio id="finishSound">
+        <source src="audio/finish.mp3" type = "audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
     <body>
         <main>
             <div id="menu">
             <h1>Memory Game</h1>
                 <p>
                     <button id="instruction" type="button" class="btn btn-info btn-lg" data-container="body"
-                            data-toggle="popover"
+                    data-toggle="popover"
                             data-placement="bottom"
                             data-content="Click on the pictures, remember the pattern, and find the pairs">
                         How to Play
