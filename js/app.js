@@ -11,7 +11,7 @@ var resetting;
 var matchedCount = 0;
 var missedCount = 0;
 var timer;
-var gameBoard = $('#game-board');
+//var gameBoard = $('#game-board');
 
 for(idx = 1; idx <= 32; ++idx) {
     tiles.push ({
@@ -32,13 +32,12 @@ $(document).ready(function() {
 
     //catch click event of start game button
     $('#start-game').click(function() {
-        window.clearInterval(timer);
+        var gameBoard = $('#game-board');
+        $(gameBoard).fadeIn(100);
+        $('#game-monitor').fadeIn(100);
+        //window.clearInterval(timer);
         document.getElementById('startSound').load();
         document.getElementById('startSound').play();
-        $('#game-monitor').fadeIn(100);
-        $(gameBoard).fadeIn(100);
-        //window.clearInterval(timer);
-        gameBoard.text("");
 
         console.log('start game button clicked!');
         tiles = _.shuffle(tiles);
@@ -84,7 +83,6 @@ $(document).ready(function() {
             $('#win-screen').fadeOut(100);
             gameBoard.text("");
             window.clearInterval(timer);
-            tiles = [];
             missedCount = 0;
             matchedCount = 0;
             startTime = Date.now();
@@ -138,7 +136,6 @@ $(document).ready(function() {
 
             //if game finishes
             if(matchedCount == 8) { //game finishes
-
                 //timeout
                 window.clearInterval(timer);
                 var tries = matchedCount + missedCount;
@@ -187,8 +184,8 @@ function resize() {
     if(winWidth == smaller) {
         smaller = smaller - 220;
     }
-    $(gameBoard).css('height', (smaller - 10));
-    $(gameBoard).css('width', (smaller - 10));
+    $('#game-board').css('height', (smaller - 10));
+    $('#game-board').css('width', (smaller - 10));
 }
 
 
