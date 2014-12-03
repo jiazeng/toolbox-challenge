@@ -33,11 +33,12 @@ $(document).ready(function() {
     //catch click event of start game button
     $('#start-game').click(function() {
         var gameBoard = $('#game-board');
-        $(gameBoard).fadeIn(100);
-        $('#game-monitor').fadeIn(100);
-        //window.clearInterval(timer);
         document.getElementById('startSound').load();
         document.getElementById('startSound').play();
+        $('#game-monitor').fadeIn(100);
+        $(gameBoard).fadeIn(100);
+        //window.clearInterval(timer);
+
 
         console.log('start game button clicked!');
         tiles = _.shuffle(tiles);
@@ -85,6 +86,16 @@ $(document).ready(function() {
             window.clearInterval(timer);
             missedCount = 0;
             matchedCount = 0;
+            tiles=[];
+            for(idx = 1; idx <= 32; ++idx) {
+                tiles.push ({
+                    tileNum: idx,
+                    src: 'img/tile' + idx + '.jpg',
+                    flipped: false,
+                    matched: false
+                });
+            } //for each ti
+
             startTime = Date.now();
             $('#menu').fadeIn(100);
         });
